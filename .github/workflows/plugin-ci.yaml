@@ -1,0 +1,54 @@
+on:
+  workflow_call:
+    inputs:
+      golang-cache-enabled:
+        default: true
+        description: |
+          Enable golang caching in CI
+        required: false
+        type: boolean
+
+      golang-version:
+        default: "1.19"
+        description: |
+          Set the version for Golang
+        required: false
+        type: string
+
+      golangci-lint-version:
+        default: "v1.49.0"
+        description: |
+          Set the version for golangci-lint
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  continuous-integration:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
+        with:
+          fetch-depth: 0
+
+      - name: Setup Go
+        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
+        with:
+          go-version: ${{ inputs.golang-version }}
+          cache: true
+
+      - name: ci/setup
+        uses: spirosoik/actions/plugin-ci/setup@main
+
+      - name: ci/lint
+        uses: spirosoik/actions/plugin-ci/lint@main
+
+      - name: ci/test
+        uses: spirosoik/actions/plugin-ci/test@main
+
+      - name: ci/build
+        uses: spirosoik/actions/plugin-ci/build@main
