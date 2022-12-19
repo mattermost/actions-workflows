@@ -22,6 +22,18 @@ on:
         required: false
         type: string
 
+      artifacts:
+        description: |
+          The path or files of artifacts to upload
+        required: true
+        type: string
+
+      bucket:
+        description: |
+          The S3 bucket full path to upload
+        required: true
+        type: string
+
 permissions:
   contents: read
 
@@ -98,9 +110,14 @@ jobs:
       - name: ci/prepare-artifact
         run: mv dist/*.tar.gz dist/$GITHUB_REPOSITORY-ci.tar.gz
 
-      - name: ci/upload-artifact
-        uses: mattermost/actions/artifact-upload@a137067c750390bfc228375dbe745b2aa3a566e8
+      - name: ci/aws-configure
+        uses: aws-actions/configure-aws-credentials@67fbcbb121271f7775d2e7715933280b06314838 # v1.7.0
         with:
-          artifacts: dist
-          bucket: mattermost-plugins-ci/ci/
-          region: us-east-2
+          aws-region: ${{ inputs.aws-region }}
+          aws-access-key-id: ${{ secrets.PLUGIN_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PLUGIN_AWS_SECRET_ACCESS_KEY }}
+
+      - name: ci/artifact-upload
+        shell: bash
+        run: |
+          aws s3 cp ${{ inputs.artifacts }} s3://${{ inputs.bucket }} --acl public-read --cache-control no-cache
