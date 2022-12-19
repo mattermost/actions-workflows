@@ -62,10 +62,10 @@ jobs:
           cache: true
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@a137067c750390bfc228375dbe745b2aa3a566e8
+        uses: mattermost/actions/plugin-ci/setup@78a7031b0c913d2da6db285945e3ddcec191eead
 
       - name: ci/lint
-        uses: mattermost/actions/plugin-ci/lint@a137067c750390bfc228375dbe745b2aa3a566e8
+        uses: mattermost/actions/plugin-ci/lint@78a7031b0c913d2da6db285945e3ddcec191eead
 
   test:
     runs-on: ubuntu-latest
@@ -82,10 +82,10 @@ jobs:
           cache: true
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@a137067c750390bfc228375dbe745b2aa3a566e8
+        uses: mattermost/actions/plugin-ci/setup@78a7031b0c913d2da6db285945e3ddcec191eead
 
       - name: ci/test
-        uses: mattermost/actions/plugin-ci/test@a137067c750390bfc228375dbe745b2aa3a566e8
+        uses: mattermost/actions/plugin-ci/test@78a7031b0c913d2da6db285945e3ddcec191eead
 
   build:
     runs-on: ubuntu-latest
@@ -103,12 +103,13 @@ jobs:
           cache: true
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@a137067c750390bfc228375dbe745b2aa3a566e8
+        uses: mattermost/actions/plugin-ci/setup@78a7031b0c913d2da6db285945e3ddcec191eead
 
       - name: ci/build
-        uses: mattermost/actions/plugin-ci/build@a137067c750390bfc228375dbe745b2aa3a566e8
+        uses: mattermost/actions/plugin-ci/build@78a7031b0c913d2da6db285945e3ddcec191eead
 
   delivery:
+    # if: ${{ github.ref_name  == 'master' }}
     runs-on: ubuntu-latest
     needs: [build]
     steps:
