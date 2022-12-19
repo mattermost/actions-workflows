@@ -11,7 +11,3 @@ A collection of reusable Github workflows to support the CI/CD of Mattermost rep
 ## License
 
 See the [LICENSE file](LICENSE) for license rights and limitations.
-
-## Contributing
-
-Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
