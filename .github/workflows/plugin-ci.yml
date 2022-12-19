@@ -106,7 +106,7 @@ jobs:
         uses: mattermost/actions/plugin-ci/setup@78a7031b0c913d2da6db285945e3ddcec191eead
 
       - name: ci/build
-        uses: mattermost/actions/plugin-ci/build@78a7031b0c913d2da6db285945e3ddcec191eead
+        uses: mattermost/actions/plugin-ci/build@main
 
   delivery:
     # if: ${{ github.ref_name  == 'master' }}
