@@ -83,7 +83,7 @@ jobs:
       - name: ci/setup
         uses: mattermost/actions/plugin-ci/setup@c96feabad039c3d01c0a2c46a3e467fbb33e0129
 
-      - name: ci/test
+      - name: ci/build
         uses: mattermost/actions/plugin-ci/build@c96feabad039c3d01c0a2c46a3e467fbb33e0129
 
   delivery:
