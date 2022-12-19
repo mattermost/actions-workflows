@@ -41,10 +41,10 @@ jobs:
           cache: true
 
       - name: ci/setup
-        uses: spirosoik/actions/plugin-ci/setup@main
+        uses: mattermost/actions/plugin-ci/setup@main
 
       - name: ci/lint
-        uses: spirosoik/actions/plugin-ci/lint@main
+        uses: mattermost/actions/plugin-ci/lint@main
 
   test:
     runs-on: ubuntu-latest
@@ -61,10 +61,10 @@ jobs:
           cache: true
 
       - name: ci/setup
-        uses: spirosoik/actions/plugin-ci/setup@main
+        uses: mattermost/actions/plugin-ci/setup@main
 
       - name: ci/test
-        uses: spirosoik/actions/plugin-ci/test@main
+        uses: mattermost/actions/plugin-ci/test@main
 
   build:
     runs-on: ubuntu-latest
@@ -81,7 +81,25 @@ jobs:
           cache: true
 
       - name: ci/setup
-        uses: spirosoik/actions/plugin-ci/setup@main
+        uses: mattermost/actions/plugin-ci/setup@main
 
       - name: ci/test
-        uses: spirosoik/actions/plugin-ci/build@main
+        uses: mattermost/actions/plugin-ci/build@main
+
+  delivery:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ci/download-artifact
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7 # v3.0.1
+        with:
+          name: dist
+          path: dist
+
+      - name: ci/prepare-artifact
+        run: mv dist/*.tar.gz dist/$GITHUB_REPOSITORY-ci.tar.gz
+
+      - name: ci/upload-artifact
+        uses: mattermost/actions/artifact-upload@main
+        with:
+          artifacts: dist
+          bucket: mattermost-plugins-ci/ci/
