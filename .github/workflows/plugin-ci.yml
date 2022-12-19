@@ -41,10 +41,10 @@ jobs:
           cache: true
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@c96feabad039c3d01c0a2c46a3e467fbb33e0129
+        uses: mattermost/actions/plugin-ci/setup@a137067c750390bfc228375dbe745b2aa3a566e8
 
       - name: ci/lint
-        uses: mattermost/actions/plugin-ci/lint@c96feabad039c3d01c0a2c46a3e467fbb33e0129
+        uses: mattermost/actions/plugin-ci/lint@a137067c750390bfc228375dbe745b2aa3a566e8
 
   test:
     runs-on: ubuntu-latest
@@ -61,10 +61,10 @@ jobs:
           cache: true
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@c96feabad039c3d01c0a2c46a3e467fbb33e0129
+        uses: mattermost/actions/plugin-ci/setup@a137067c750390bfc228375dbe745b2aa3a566e8
 
       - name: ci/test
-        uses: mattermost/actions/plugin-ci/test@c96feabad039c3d01c0a2c46a3e467fbb33e0129
+        uses: mattermost/actions/plugin-ci/test@a137067c750390bfc228375dbe745b2aa3a566e8
 
   build:
     runs-on: ubuntu-latest
@@ -81,10 +81,10 @@ jobs:
           cache: true
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@c96feabad039c3d01c0a2c46a3e467fbb33e0129
+        uses: mattermost/actions/plugin-ci/setup@a137067c750390bfc228375dbe745b2aa3a566e8
 
       - name: ci/build
-        uses: mattermost/actions/plugin-ci/build@c96feabad039c3d01c0a2c46a3e467fbb33e0129
+        uses: mattermost/actions/plugin-ci/build@a137067c750390bfc228375dbe745b2aa3a566e8
 
   delivery:
     runs-on: ubuntu-latest
@@ -99,7 +99,8 @@ jobs:
         run: mv dist/*.tar.gz dist/$GITHUB_REPOSITORY-ci.tar.gz
 
       - name: ci/upload-artifact
-        uses: mattermost/actions/artifact-upload@c96feabad039c3d01c0a2c46a3e467fbb33e0129
+        uses: mattermost/actions/artifact-upload@a137067c750390bfc228375dbe745b2aa3a566e8
         with:
           artifacts: dist
           bucket: mattermost-plugins-ci/ci/
+          region: us-east-2
