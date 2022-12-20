@@ -119,7 +119,7 @@ jobs:
         uses: mattermost/actions/plugin-ci/build@f5602943fd346a526f5aceb7d51c6553657a4da1
 
   delivery:
-    # if: ${{ github.ref_name  == 'master' }}
+    if: ${{ github.ref_name  == 'master' || github.ref_name  == 'main' }}
     runs-on: ubuntu-latest
     needs: [build]
     steps:
