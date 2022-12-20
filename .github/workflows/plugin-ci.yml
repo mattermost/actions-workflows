@@ -2,7 +2,7 @@ on:
   workflow_call:
     inputs:
       artifacts:
-        default: dist
+        default: dist/*.tar.gz
         description: |
           The path or files of artifacts to upload
         required: false
@@ -42,6 +42,16 @@ on:
           The AWS region for S3 bucket
         required: false
         type: string
+
+    secrets:
+      aws-access-key-id:
+        description: |
+          The AWS access key ID
+        required: true
+      aws-secret-access-key:
+        description: |
+          The AWS access secret key
+        required: true
 
 permissions:
   contents: read
@@ -119,10 +129,6 @@ jobs:
           name: dist
           path: dist
 
-      - name: LS
-        run: ls -al
-        working-directory: dist
-
       - name: ci/prepare-artifact
         run: mv *.tar.gz ${GITHUB_REPOSITORY#*/}-ci.tar.gz
         working-directory: dist
@@ -131,8 +137,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@67fbcbb121271f7775d2e7715933280b06314838 # v1.7.0
         with:
           aws-region: ${{ inputs.region }}
-          aws-access-key-id: ${{ secrets.PLUGIN_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.PLUGIN_AWS_SECRET_ACCESS_KEY }}
+          aws-access-key-id: ${{ secrets.aws-access-key-id }}
+          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
 
       - name: ci/artifact-upload
         shell: bash
