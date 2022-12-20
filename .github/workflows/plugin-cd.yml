@@ -7,7 +7,6 @@ on:
           The path or files of artifacts to upload
         required: false
         type: string
-
       bucket:
         default: mattermost-plugins-ci/release/
         description: |
@@ -64,9 +63,7 @@ jobs:
 
       - name: ci/publish-release
         run: |
-          ghr -b "$(< ./release-notes.md)" -c ${GITHUB_REF_NAME} -n ${GITHUB_REF_NAME} -delete ${GITHUB_REF_NAME} *.tar.gz
+          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release-notes.md  *.tar.gz
         working-directory: dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.event.repository.name }}
