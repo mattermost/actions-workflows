@@ -2,7 +2,7 @@ on:
   workflow_call:
     inputs:
       artifacts:
-        default: dist/*.tar.gz
+        default: "*.tar.gz"
         description: |
           The path or files of artifacts to upload
         required: false
