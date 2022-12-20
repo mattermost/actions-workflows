@@ -56,7 +56,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Go
-        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
+        uses: actions/setup-go@0143519cc3e3a31bd1a9d4b6a50d23a023b950db # v3.5.0
         with:
           go-version: ${{ inputs.golang-version }}
           cache: true
@@ -76,7 +76,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Go
-        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
+        uses: actions/setup-go@0143519cc3e3a31bd1a9d4b6a50d23a023b950db # v3.5.0
         with:
           go-version: ${{ inputs.golang-version }}
           cache: true
@@ -97,7 +97,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup Go
-        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568 # v3.5.0
+        uses: actions/setup-go@0143519cc3e3a31bd1a9d4b6a50d23a023b950db # v3.5.0
         with:
           go-version: ${{ inputs.golang-version }}
           cache: true
@@ -106,7 +106,7 @@ jobs:
         uses: mattermost/actions/plugin-ci/setup@78a7031b0c913d2da6db285945e3ddcec191eead
 
       - name: ci/build
-        uses: mattermost/actions/plugin-ci/build@22d7d0350214a27f24bebba563ea9f6a05aecd6f
+        uses: mattermost/actions/plugin-ci/build@0143519cc3e3a31bd1a9d4b6a50d23a023b950db
 
   delivery:
     # if: ${{ github.ref_name  == 'master' }}
