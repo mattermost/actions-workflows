@@ -53,8 +53,8 @@ jobs:
         uses: aws-actions/configure-aws-credentials@67fbcbb121271f7775d2e7715933280b06314838 # v1.7.0
         with:
           aws-region: ${{ inputs.region }}
-          aws-access-key-id: ${{ secrets.aws-access-key-id }}
-          aws-secret-access-key: ${{ secrets.aws-secret-access-key }}
+          aws-access-key-id: ${{ secrets.PLUGIN_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PLUGIN_AWS_SECRET_ACCESS_KEY }}
 
       - name: ci/artifact-upload
         shell: bash
@@ -67,6 +67,6 @@ jobs:
           ghr -b "$(< ./release-notes.md)" -c ${GITHUB_REF_NAME} -n ${GITHUB_REF_NAME} -delete ${GITHUB_REF_NAME} *.tar.gz
         working-directory: dist
         env:
-          GITHUB_TOKEN: ${{ secrets.github-token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
