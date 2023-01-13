@@ -14,20 +14,6 @@ on:
         required: false
         type: string
 
-    secrets:
-      aws-access-key-id:
-        description: |
-          The AWS access key ID
-        required: true
-      aws-secret-access-key:
-        description: |
-          The AWS access secret key
-        required: true
-      github-token:
-        description: |
-          The Github token to publish artifacts
-        required: true
-
 permissions:
   contents: read
 
