@@ -49,6 +49,7 @@ permissions:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    container: cimg/go:1.19@sha256:a14b0d7a15641d99300a16b80a2bf1cae0792ffdfb4c2180941c4c0f429a9ba3
     steps:
       - name: Checkout repo
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
@@ -69,6 +70,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
+    container: cimg/go:1.19@sha256:a14b0d7a15641d99300a16b80a2bf1cae0792ffdfb4c2180941c4c0f429a9ba3
     steps:
       - name: Checkout repo
         uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b # v3.2.0
@@ -89,6 +91,7 @@ jobs:
 
   build:
     runs-on: ubuntu-latest
+    container: cimg/go:1.19@sha256:a14b0d7a15641d99300a16b80a2bf1cae0792ffdfb4c2180941c4c0f429a9ba3
     needs: [lint, test]
     steps:
       - name: Checkout repo
