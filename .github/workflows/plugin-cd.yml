@@ -99,8 +99,8 @@ jobs:
       - name: ci/artifact-upload
         shell: bash
         run: |
-          ls -al
-          aws s3 cp "${{ inputs.artifacts }}" s3://${{ inputs.bucket }} --acl public-read --cache-control no-cache
+          aws s3 cp ${GITHUB_REPOSITORY#*/}-latest.tar.gz s3://${{ inputs.bucket }} --acl public-read --cache-control no-cache
+          aws s3 cp ${GITHUB_REPOSITORY#*/}-${GITHUB_REF_NAME}.tar.gz s3://${{ inputs.bucket }} --acl public-read --cache-control no-cache
         working-directory: dist
 
       - name: ci/publish-release
