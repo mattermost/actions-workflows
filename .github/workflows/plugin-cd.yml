@@ -7,10 +7,18 @@ on:
           The path or files of artifacts to upload
         required: false
         type: string
+
       bucket:
         default: mattermost-plugins-ci/release/
         description: |
           The S3 bucket full path to upload
+        required: false
+        type: string
+
+      region:
+        default: us-east-2
+        description: |
+          The AWS region for S3 bucket
         required: false
         type: string
 
