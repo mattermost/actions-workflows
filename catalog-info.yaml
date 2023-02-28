@@ -5,6 +5,6 @@ metadata:
   annotations:
     github.com/project-slug: mattermost/actions-workflows
 spec:
-  type: other
-  lifecycle: unknown
+  type: cicd
+  lifecycle: production
   owner: cloud-delivery
