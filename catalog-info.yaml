@@ -7,4 +7,4 @@ metadata:
 spec:
   type: "ci/cd"
   lifecycle: "production"
-  owner: "cloud:delivery"
+  owner: "core-build-engineers"
