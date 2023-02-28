@@ -8,3 +8,4 @@ spec:
   type: "ci/cd"
   lifecycle: "production"
   owner: "core-build-engineers"
+  system: "delivery-infrastructure"
