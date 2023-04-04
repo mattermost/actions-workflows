@@ -39,6 +39,8 @@ jobs:
         uses: mattermost/actions/plugin-ci/setup@0d1a5aa0352d9030d51dd6f01868351cad80ef0a
 
       - name: ci/build
+        env:
+          MM_RUDDER_PLUGINS_PROD: ${{ secrets.MM_RUDDER_PLUGINS_PROD }}
         uses: mattermost/actions/plugin-ci/build@0d1a5aa0352d9030d51dd6f01868351cad80ef0a
 
   release-s3:
