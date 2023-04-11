@@ -41,6 +41,8 @@ jobs:
       - name: ci/build
         env:
           MM_RUDDER_PLUGINS_PROD: ${{ secrets.MM_RUDDER_PLUGINS_PROD }}
+          MM_RUDDER_CALLS_PROD: ${{ secrets.MM_RUDDER_CALLS_PROD }}
+          MM_RUDDER_DATAPLANE_URL: ${{ secrets.MM_RUDDER_DATAPLANE_URL }}
         uses: mattermost/actions/plugin-ci/build@0d1a5aa0352d9030d51dd6f01868351cad80ef0a
 
   release-s3:
