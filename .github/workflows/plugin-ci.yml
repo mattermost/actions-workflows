@@ -76,7 +76,7 @@ jobs:
         uses: mattermost/actions/plugin-ci/build@0d1a5aa0352d9030d51dd6f01868351cad80ef0a
 
   delivery:
-    if: ${{ github.event_name != 'schedule' && (github.ref_name  == 'master' || github.ref_name  == 'main') }}
+    if: ${{ github.repository_owner == 'mattermost' && github.event_name != 'schedule' && (github.ref_name  == 'master' || github.ref_name  == 'main') }}
     runs-on: ubuntu-latest
     needs: [lint, test, build]
     steps:
