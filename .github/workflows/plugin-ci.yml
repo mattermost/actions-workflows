@@ -43,6 +43,8 @@ jobs:
 
       - name: ci/setup
         uses: mattermost/actions/plugin-ci/setup@0d1a5aa0352d9030d51dd6f01868351cad80ef0a
+        with:
+          golangci-lint-version: ${{ inputs.golangci-lint-version }}
 
       - name: ci/lint
         uses: mattermost/actions/plugin-ci/lint@0d1a5aa0352d9030d51dd6f01868351cad80ef0a
