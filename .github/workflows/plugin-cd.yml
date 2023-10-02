@@ -15,6 +15,13 @@ on:
         required: false
         type: string
 
+      golang-version:
+        default: "1.21"
+        description: |
+          Set the version for golang
+        required: false
+        type: string
+
       region:
         default: us-east-2
         description: |
@@ -37,6 +44,8 @@ jobs:
 
       - name: ci/setup
         uses: mattermost/actions/plugin-ci/setup@8c02b13d20a7121b0dbec4157c9f70593bad4e8c
+        with:
+          golang-version: ${{ inputs.golang-version }}
 
       - name: ci/build
         env:
