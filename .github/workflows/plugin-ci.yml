@@ -16,7 +16,7 @@ on:
         type: string
 
       golangci-lint-version:
-        default: "v1.52.2"
+        default: "v1.55.2"
         description: |
           Set the version for golangci-lint
         required: false
