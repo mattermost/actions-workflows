@@ -36,11 +36,19 @@ on:
         required: false
         type: string
 
+      run-scheduled:
+        type: boolean
+        default: false
+        required: false
+        description: |
+          Permit forked repos to run the workflow in a scheduled context
+
 permissions:
   contents: read
 
 jobs:
   lint:
+    if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -58,6 +66,7 @@ jobs:
         uses: mattermost/actions/plugin-ci/lint@8c02b13d20a7121b0dbec4157c9f70593bad4e8c
 
   test:
+    if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -74,6 +83,7 @@ jobs:
         uses: mattermost/actions/plugin-ci/test@8c02b13d20a7121b0dbec4157c9f70593bad4e8c
 
   build:
+    if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
