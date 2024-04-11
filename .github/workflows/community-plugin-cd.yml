@@ -10,20 +10,10 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: cd/checkout-repo
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-        with:
-          fetch-depth: 0
-
-      - name: cd/setup-plugin-environment
-        uses: mattermost/actions/plugin-ci/setup@main
-        with:
-          golang-version: ${{ inputs.golang-version }}
-
-      - name: cd/build-plugin
-        uses: mattermost/actions/plugin-ci/build@main
+    uses: ./.github/workflows/community-plugin-ci.yml
+    secrets: inherit
+    with:
+      golang-version: ${{ inputs.golang-version }}
 
   release-github:
     runs-on: ubuntu-latest
