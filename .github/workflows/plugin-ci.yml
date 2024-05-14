@@ -57,13 +57,13 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@091f859f342b4cd442e9f2b55594c7d1c9a63946
+        uses: mattermost/actions/plugin-ci/setup@e0e4324c4fbfe993c3f08dd91e031bbc8afdddf4
         with:
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
           golang-version: ${{ inputs.golang-version }}
 
       - name: ci/lint
-        uses: mattermost/actions/plugin-ci/lint@091f859f342b4cd442e9f2b55594c7d1c9a63946
+        uses: mattermost/actions/plugin-ci/lint@e0e4324c4fbfe993c3f08dd91e031bbc8afdddf4
 
   test:
     if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
@@ -75,12 +75,12 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@091f859f342b4cd442e9f2b55594c7d1c9a63946
+        uses: mattermost/actions/plugin-ci/setup@e0e4324c4fbfe993c3f08dd91e031bbc8afdddf4
         with:
           golang-version: ${{ inputs.golang-version }}
 
       - name: ci/test
-        uses: mattermost/actions/plugin-ci/test@091f859f342b4cd442e9f2b55594c7d1c9a63946
+        uses: mattermost/actions/plugin-ci/test@e0e4324c4fbfe993c3f08dd91e031bbc8afdddf4
 
   build:
     if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
@@ -92,12 +92,12 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@091f859f342b4cd442e9f2b55594c7d1c9a63946
+        uses: mattermost/actions/plugin-ci/setup@e0e4324c4fbfe993c3f08dd91e031bbc8afdddf4
         with:
           golang-version: ${{ inputs.golang-version }}
 
       - name: ci/build
-        uses: mattermost/actions/plugin-ci/build@091f859f342b4cd442e9f2b55594c7d1c9a63946
+        uses: mattermost/actions/plugin-ci/build@e0e4324c4fbfe993c3f08dd91e031bbc8afdddf4
 
   delivery:
     if: ${{ github.repository_owner == 'mattermost' && github.event_name != 'schedule' }}
