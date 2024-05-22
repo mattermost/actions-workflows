@@ -99,9 +99,33 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: cd/import-gpg-key
+        id: import-gpg-key
+        env:
+          GPG_PRIVATE_KEY_BASE64: ${{ secrets.PLUGIN_GPG_PRIVATE_KEY }}
+        run: |
+          umask 077
+          echo $GPG_PRIVATE_KEY_BASE64 | base64 --decode > private_key.asc
+          gpg --import private_key.asc
+          export KEY_ID=$(gpg --list-secret-key --with-colons | grep '^sec' | cut -d: -f5)
+          echo "::set-output name=key_id::${KEY_ID}"
+      - name: cd/sign-artifacts
+        run: |
+          for artifact in *.tar.gz; do
+            echo -n "Signing $artifact "
+            gpg -u ${{ steps.import-gpg-key.outputs.key_id }} --yes --armor --personal-digest-preferences SHA256 --detach-sign "$artifact"
+            gpg -u ${{ steps.import-gpg-key.outputs.key_id }} --yes --personal-digest-preferences SHA256 --detach-sign "$artifact"
+            echo "OK!"
+          done
+        working-directory: dist
       - name: ci/publish-release
         run: |
-          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release-notes.md  *.tar.gz
+          gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release-notes.md *.tar.gz *.tar.gz.sig *.tar.gz.asc
         working-directory: dist
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: cd/cleanup
+        run: |
+          gpg --delete-secret-key ${{ steps.import-gpg-key.outputs.key_id }}
+          rm -f private_key.asc
+
