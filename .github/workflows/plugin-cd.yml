@@ -42,12 +42,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: ci/setup
+      - name: cd/setup
         uses: mattermost/actions/plugin-ci/setup@cd879ea9c64cc3e26a75a042d1c5066be28130a6
         with:
           golang-version: ${{ inputs.golang-version }}
 
-      - name: ci/build
+      - name: cd/build
         env:
           MM_RUDDER_PLUGINS_PROD: ${{ secrets.MM_RUDDER_PLUGINS_PROD }}
           MM_RUDDER_CALLS_PROD: ${{ secrets.MM_RUDDER_CALLS_PROD }}
@@ -59,26 +59,26 @@ jobs:
     runs-on: ubuntu-latest
     needs: [build]
     steps:
-      - name: ci/download-artifact
+      - name: cd/download-artifact
         uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e # v4.1.7
         with:
           name: dist
           path: dist
 
-      - name: ci/prepare-artifact
+      - name: cd/prepare-artifact
         run: |
           mv *.tar.gz ${GITHUB_REPOSITORY#*/}-latest.tar.gz
           cp ${GITHUB_REPOSITORY#*/}-latest.tar.gz ${GITHUB_REPOSITORY#*/}-$GITHUB_REF_NAME.tar.gz
         working-directory: dist
 
-      - name: ci/aws-configure
+      - name: cd/aws-configure
         uses: aws-actions/configure-aws-credentials@010d0da01d0b5a38af31e9c3470dbfdabdecca3a #v4.0.1
         with:
           aws-region: ${{ inputs.region }}
           aws-access-key-id: ${{ secrets.PLUGIN_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PLUGIN_AWS_SECRET_ACCESS_KEY }}
 
-      - name: ci/artifact-upload
+      - name: cd/artifact-upload
         shell: bash
         run: |
           aws s3 cp ${GITHUB_REPOSITORY#*/}-latest.tar.gz s3://${{ inputs.bucket }} --acl public-read --cache-control no-cache
@@ -94,7 +94,7 @@ jobs:
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           fetch-depth: "0"
-      - name: ci/download-artifact
+      - name: cd/download-artifact
         uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e # v4.1.7
         with:
           name: dist
@@ -118,7 +118,7 @@ jobs:
             echo "OK!"
           done
         working-directory: dist
-      - name: ci/publish-release
+      - name: cd/publish-release
         run: |
           gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release-notes.md *.tar.gz *.tar.gz.sig *.tar.gz.asc
         working-directory: dist
