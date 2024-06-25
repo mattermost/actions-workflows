@@ -9,7 +9,7 @@ on:
         type: string
 
       bucket:
-        default: mattermost-plugins-ci/ci/
+        default: mattermost-plugins-delivery/ci/
         description: |
           The S3 bucket full path to upload
         required: false
@@ -30,7 +30,7 @@ on:
         type: string
 
       region:
-        default: us-east-2
+        default: us-east-1
         description: |
           The AWS region for S3 bucket
         required: false
