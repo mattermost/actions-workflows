@@ -51,6 +51,7 @@ jobs:
         env:
           MM_RUDDER_PLUGINS_PROD: ${{ secrets.MM_RUDDER_PLUGINS_PROD }}
           MM_RUDDER_CALLS_PROD: ${{ secrets.MM_RUDDER_CALLS_PROD }}
+          MM_RUDDER_COPILOT_PROD: ${{ secrets.MM_RUDDER_COPILOT_PROD }}
           MM_RUDDER_DATAPLANE_URL: ${{ secrets.MM_RUDDER_DATAPLANE_URL }}
         uses: mattermost/actions/plugin-ci/build@cd879ea9c64cc3e26a75a042d1c5066be28130a6
 
