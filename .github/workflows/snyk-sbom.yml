@@ -1,4 +1,11 @@
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      is_monorepo:
+        description: 'Is a monorepo'
+        default: true
+        required: false
+        type: boolean
 
 permissions:
   contents: write
@@ -18,8 +25,15 @@ jobs:
       - name: sbom/install-snyk
         run: npm install -g snyk@1.1293.0
 
-      - name: sbom/generate
+      - name: sbom/generate-monorepo
+        if: ${{ inputs.is_monorepo }}
         run: snyk sbom --format=cyclonedx1.5+json --all-projects > sbom.json
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+
+      - name: sbom/generate-nonmonorepo
+        if: ${{ ! inputs.is_monorepo }}
+        run: snyk sbom --format=cyclonedx1.5+json > sbom.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
