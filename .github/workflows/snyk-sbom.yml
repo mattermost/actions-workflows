@@ -7,7 +7,7 @@ on:
         required: false
         type: boolean
       repo_name:
-        description: 'Name of repo to be used in sbom name ex. sbom-REPONAME-v1.2.3'
+        description: 'Name of repo to be used in sbom name ex. sbom-REPONAME-vX.Y.Z.json'
         required: true
         type: string
 
