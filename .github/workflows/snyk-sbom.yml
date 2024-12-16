@@ -6,6 +6,10 @@ on:
         default: true
         required: false
         type: boolean
+      repo_name:
+        description: 'Name of repo to be used in sbom name ex. sbom-REPONAME-vX.Y.Z.json'
+        required: true
+        type: string
 
 permissions:
   contents: write
@@ -27,7 +31,7 @@ jobs:
 
       - name: sbom/generate-monorepo
         if: ${{ inputs.is_monorepo }}
-        run: snyk sbom --format=cyclonedx1.5+json --all-projects > sbom.json
+        run: snyk sbom --format=cyclonedx1.5+json --all-projects > sbom-${{ inputs.repo_name}}}-${{ github.event.release.tag_name }}.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
@@ -40,4 +44,4 @@ jobs:
       - name: sbom/upload
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "${{ github.event.release.tag_name }}" sbom.json
+        run: gh release upload "${{ github.event.release.tag_name }}" sbom-${{ inputs.repo_name}}}-${{ github.event.release.tag_name }}.json
