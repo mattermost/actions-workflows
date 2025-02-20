@@ -47,6 +47,9 @@ jobs:
         with:
           golang-version: ${{ inputs.golang-version }}
 
+      - name: Install mage
+        run: go install github.com/magefile/mage@latest
+
       - name: ci/build
         env:
           MM_RUDDER_PLUGINS_PROD: ${{ secrets.MM_RUDDER_PLUGINS_PROD }}
