@@ -57,13 +57,13 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@cd879ea9c64cc3e26a75a042d1c5066be28130a6
+        uses: mattermost/actions/plugin-ci/setup@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
         with:
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
           golang-version: ${{ inputs.golang-version }}
 
       - name: ci/lint
-        uses: mattermost/actions/plugin-ci/lint@cd879ea9c64cc3e26a75a042d1c5066be28130a6
+        uses: mattermost/actions/plugin-ci/lint@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
 
   test:
     if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
@@ -75,12 +75,12 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@cd879ea9c64cc3e26a75a042d1c5066be28130a6
+        uses: mattermost/actions/plugin-ci/setup@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
         with:
           golang-version: ${{ inputs.golang-version }}
 
       - name: ci/test
-        uses: mattermost/actions/plugin-ci/test@cd879ea9c64cc3e26a75a042d1c5066be28130a6
+        uses: mattermost/actions/plugin-ci/test@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
 
   build:
     if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
@@ -92,12 +92,12 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@cd879ea9c64cc3e26a75a042d1c5066be28130a6
+        uses: mattermost/actions/plugin-ci/setup@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
         with:
           golang-version: ${{ inputs.golang-version }}
 
       - name: ci/build
-        uses: mattermost/actions/plugin-ci/build@cd879ea9c64cc3e26a75a042d1c5066be28130a6
+        uses: mattermost/actions/plugin-ci/build@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
 
   delivery:
     if: ${{ github.repository_owner == 'mattermost' && github.event_name != 'schedule' && (github.ref_name  == 'master' || github.ref_name  == 'main') }}
