@@ -23,7 +23,7 @@ jobs:
           node-version: '22.6.0'
 
       - name: sbom/install-snyk
-        run: npm install -g snyk@1.1293.0
+        run: npm install -g snyk@1.1296.1
 
       - name: sbom/generate-monorepo
         if: ${{ inputs.is_monorepo }}
@@ -33,7 +33,7 @@ jobs:
 
       - name: sbom/generate-nonmonorepo
         if: ${{ ! inputs.is_monorepo }}
-        run: snyk sbom --format=cyclonedx1.5+json > sbom.json
+        run: snyk sbom --format=cyclonedx1.5+json > sbom-${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
