@@ -27,13 +27,13 @@ jobs:
 
       - name: sbom/generate-monorepo
         if: ${{ inputs.is_monorepo }}
-        run: snyk sbom --format=cyclonedx1.5+json --all-projects > sbom-${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.json
+        run: snyk sbom --format=cyclonedx1.6+json --all-projects > sbom-${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: sbom/generate-nonmonorepo
         if: ${{ ! inputs.is_monorepo }}
-        run: snyk sbom --format=cyclonedx1.5+json > sbom-${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.json
+        run: snyk sbom --format=cyclonedx1.6+json > sbom-${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
