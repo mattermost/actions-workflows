@@ -6,6 +6,10 @@ on:
         default: true
         required: false
         type: boolean
+      tag_name:
+        description: 'Tag name to use for the SBOM (required when manually triggered)'
+        required: false
+        type: string
 
 permissions:
   contents: write
@@ -13,6 +17,9 @@ permissions:
 jobs:
   sbom:
     runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ inputs.tag_name || github.event.release.tag_name }}
+      SBOM_FILENAME: sbom-${{ github.event.repository.name }}-${RELEASE_TAG}.json
     steps:
       - name: sbom/checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -27,17 +34,17 @@ jobs:
 
       - name: sbom/generate-monorepo
         if: ${{ inputs.is_monorepo }}
-        run: snyk sbom --format=cyclonedx1.6+json --all-projects > sbom-${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.json
+        run: snyk sbom --format=cyclonedx1.6+json --all-projects > ${SBOM_FILENAME}
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: sbom/generate-nonmonorepo
         if: ${{ ! inputs.is_monorepo }}
-        run: snyk sbom --format=cyclonedx1.6+json > sbom-${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.json
+        run: snyk sbom --format=cyclonedx1.6+json > ${SBOM_FILENAME}
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: sbom/upload
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "${{ github.event.release.tag_name }}" sbom-${{ github.event.repository.name }}-${{ github.event.release.tag_name }}.json
+        run: gh release upload "${RELEASE_TAG}" ${SBOM_FILENAME}
