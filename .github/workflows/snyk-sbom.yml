@@ -26,20 +26,6 @@ jobs:
         with:
           ref: ${RELEASE_TAG}
 
-      - name: sbom/validate-tag
-        run: |
-          if ! git rev-parse --verify "refs/tags/${RELEASE_TAG}" >/dev/null 2>&1; then
-            echo "Error: Tag ${RELEASE_TAG} does not exist"
-            exit 1
-          fi
-          
-          if ! gh release view "${RELEASE_TAG}" >/dev/null 2>&1; then
-            echo "Error: Tag ${RELEASE_TAG} is not a valid release"
-            exit 1
-          fi
-        env:
-          GH_TOKEN: ${{ github.token }}
-
       - name: sbom/setup-node
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
