@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       RELEASE_TAG: ${{ inputs.tag_name || github.event.release.tag_name }}
-      SBOM_FILENAME: sbom-${{ github.event.repository.name }}-${RELEASE_TAG}.json
     steps:
       - name: sbom/checkout
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
@@ -36,17 +35,17 @@ jobs:
 
       - name: sbom/generate-monorepo
         if: ${{ inputs.is_monorepo }}
-        run: snyk sbom --format=cyclonedx1.6+json --all-projects > ${SBOM_FILENAME}
+        run: snyk sbom --format=cyclonedx1.6+json --all-projects > sbom-${{ github.event.repository.name }}-${{ env.RELEASE_TAG }}.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: sbom/generate-nonmonorepo
         if: ${{ ! inputs.is_monorepo }}
-        run: snyk sbom --format=cyclonedx1.6+json > ${SBOM_FILENAME}
+        run: snyk sbom --format=cyclonedx1.6+json > sbom-${{ github.event.repository.name }}-${{ env.RELEASE_TAG }}.json
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
 
       - name: sbom/upload
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "${RELEASE_TAG}" ${SBOM_FILENAME}
+        run: gh release upload "${RELEASE_TAG}" sbom-${{ github.event.repository.name }}-${{ env.RELEASE_TAG }}.json
