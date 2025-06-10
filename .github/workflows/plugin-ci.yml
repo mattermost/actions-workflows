@@ -118,7 +118,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@b47578312673ae6fa5b5096b330d9fbac3d116df # v4.2.1
         with:
           aws-region: us-east-1
-          role-to-assume: arn:aws:iam::${{ vars.AWS_ACCOUNT_ID }}:role/mattermost-release-plugin-store-role
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/mattermost-release-plugin-store-role
           role-chaining: true # Enable chaining from existing credentials
 
       - name: ci/artifact-upload
