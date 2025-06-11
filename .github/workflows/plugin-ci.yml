@@ -120,7 +120,6 @@ jobs:
         with:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID_RELEASE }}:role/mattermost-release-plugin-store-role
-          role-chaining: true # Enable chaining from existing credentials
 
       - name: ci/artifact-upload
         shell: bash
