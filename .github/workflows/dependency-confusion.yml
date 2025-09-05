@@ -27,7 +27,10 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          super-confused --json . > super-confused-report.json || true
+          if ! super-confused --json . > super-confused-report.json; then
+            echo "super-confused execution failed"
+            exit 2
+          fi
           if [ -s super-confused-report.json ]; then
             echo "super-confused detected potential dependency confusion:"
             cat super-confused-report.json
