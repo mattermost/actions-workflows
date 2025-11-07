@@ -1,0 +1,120 @@
+name: Plugin PR Distribution Build
+
+on:
+  workflow_call:
+    inputs:
+      go-version-file:
+        description: "Path to the file that declares the Go version"
+        type: string
+        required: false
+        default: go.mod
+      dist-target:
+        description: "Make target that produces the CI distribution artifact"
+        type: string
+        required: false
+        default: dist-ci
+      verify-target:
+        description: "Make target that validates multi-platform builds"
+        type: string
+        required: false
+        default: dist
+      artifact-pattern:
+        description: "Glob pattern matching distribution artifacts"
+        type: string
+        required: false
+        default: dist/*.tar.gz
+      s3-prefix:
+        description: "Optional S3 prefix (folder) for uploaded artifacts"
+        type: string
+        required: false
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  dist:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: ci/checkout-repo
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: ci/setup-go
+        uses: actions/setup-go@0aaccfd150d50ccaeb58ebd88d36e91967a5f35b # v5.4.0
+        with:
+          go-version-file: ${{ inputs.go-version-file }}
+          cache: false
+
+      - name: ci/get-short-sha
+        id: short-sha
+        env:
+          PR_SHA: "${{ github.event.pull_request.head.sha }}"
+        run: |
+          sha_ref="${PR_SHA}"
+          if [ -z "$sha_ref" ]; then
+            sha_ref="${{ github.sha }}"
+          fi
+          echo "sha=${sha_ref:0:7}" >> "$GITHUB_OUTPUT"
+
+      - name: ci/build-for-upload
+        env:
+          DIST_TARGET: ${{ inputs.dist-target }}
+        run: make "$DIST_TARGET"
+
+      - name: Resolve artifact destination
+        id: destination
+        env:
+          SHARED_BUCKET: ${{ vars.PLUGIN_DIST_S3_BUCKET }}
+          INPUT_PREFIX: ${{ inputs.s3-prefix }}
+          SHARED_PREFIX: ${{ vars.PLUGIN_DIST_S3_PREFIX }}
+        run: |
+          bucket="$SHARED_BUCKET"
+          if [ -z "$bucket" ]; then
+            echo "Shared S3 bucket is not configured. Define PLUGIN_DIST_S3_BUCKET as an organization or repository variable." >&2
+            exit 1
+          fi
+          echo "bucket=$bucket" >> "$GITHUB_OUTPUT"
+
+          prefix="$INPUT_PREFIX"
+          if [ -z "$prefix" ]; then
+            if [ -n "$SHARED_PREFIX" ]; then
+              prefix="$SHARED_PREFIX"
+            else
+              plugin="${GITHUB_REPOSITORY#*/}"
+              prefix="mattermost-plugins/${plugin}"
+            fi
+          fi
+          echo "prefix=$prefix" >> "$GITHUB_OUTPUT"
+
+      - name: ci/ensure-build-on-all-platforms
+        env:
+          VERIFY_TARGET: ${{ inputs.verify-target }}
+        run: make "$VERIFY_TARGET"
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@a03048d87541d1d9fcf2ecf528a4a65ba9bd7838 # v5.0.0
+        with:
+          aws-access-key-id: ${{ secrets.PLUGIN_DELIVERY_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PLUGIN_DELIVERY_AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Upload dist to S3
+        env:
+          ARTIFACT_PATTERN: ${{ inputs.artifact-pattern }}
+          S3_BUCKET: ${{ steps.destination.outputs.bucket }}
+          S3_PREFIX: ${{ steps.destination.outputs.prefix }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          plugin="${GITHUB_REPOSITORY#*/}"
+          for artifact in $ARTIFACT_PATTERN; do
+            if [ ! -f "$artifact" ]; then
+              continue
+            fi
+            base=$(basename "$artifact")
+            aws s3 cp "$artifact" "s3://${S3_BUCKET}/${S3_PREFIX}/${plugin}-${{ steps.short-sha.outputs.sha }}-${base}" --acl private
+          done
+
+
