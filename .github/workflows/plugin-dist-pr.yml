@@ -105,6 +105,7 @@ jobs:
           ARTIFACT_PATTERN: ${{ inputs.artifact-pattern }}
           S3_BUCKET: ${{ steps.destination.outputs.bucket }}
           S3_PREFIX: ${{ steps.destination.outputs.prefix }}
+          SHORT_SHA: ${{ steps.short-sha.outputs.sha }}
         run: |
           set -euo pipefail
           shopt -s nullglob
@@ -114,7 +115,12 @@ jobs:
               continue
             fi
             base=$(basename "$artifact")
-            aws s3 cp "$artifact" "s3://${S3_BUCKET}/${S3_PREFIX}/${plugin}-${{ steps.short-sha.outputs.sha }}-${base}" --acl private
+            if [[ "$base" != *.tar.gz ]]; then
+              echo "Artifact '$base' does not match required '*.tar.gz' naming." >&2
+              exit 1
+            fi
+            target="${plugin}-${SHORT_SHA}.tar.gz"
+            aws s3 cp "$artifact" "s3://${S3_BUCKET}/${S3_PREFIX}/${target}" --acl private
           done
 
 
