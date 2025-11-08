@@ -29,6 +29,13 @@ on:
         required: false
         type: string
 
+      mage-version:
+        default: "v1.15.0"
+        description: |
+          Set the version for mage
+        required: false
+        type: string
+
       region:
         default: us-east-1
         description: |
@@ -63,6 +70,9 @@ jobs:
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
           golang-version: ${{ inputs.golang-version }}
 
+      - name: Install mage
+        run: go install github.com/magefile/mage@${{ inputs.mage-version }}
+
       - name: ci/lint
         uses: mattermost/actions/plugin-ci/lint@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
 
@@ -80,6 +90,9 @@ jobs:
         with:
           golang-version: ${{ inputs.golang-version }}
 
+      - name: Install mage
+        run: go install github.com/magefile/mage@${{ inputs.mage-version }}
+
       - name: ci/test
         uses: mattermost/actions/plugin-ci/test@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
 
@@ -96,6 +109,9 @@ jobs:
         uses: mattermost/actions/plugin-ci/setup@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
         with:
           golang-version: ${{ inputs.golang-version }}
+
+      - name: Install mage
+        run: go install github.com/magefile/mage@${{ inputs.mage-version }}
 
       - name: ci/build
         uses: mattermost/actions/plugin-ci/build@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
