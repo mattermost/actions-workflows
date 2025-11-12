@@ -43,6 +43,13 @@ on:
         description: |
           Permit forked repos to run the workflow in a scheduled context
 
+      skip-aws-upload:
+        default: false
+        description: |
+          Skip the AWS upload step
+        required: false
+        type: boolean
+
 permissions:
   contents: read
   id-token: write
@@ -101,7 +108,7 @@ jobs:
         uses: mattermost/actions/plugin-ci/build@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
 
   delivery:
-    if: ${{ github.repository_owner == 'mattermost' && github.event_name != 'schedule' && (github.ref_name  == 'master' || github.ref_name  == 'main') }}
+    if: ${{ github.repository_owner == 'mattermost' && github.event_name != 'schedule' && (github.ref_name  == 'master' || github.ref_name  == 'main') && !inputs.skip-aws-upload }}
     runs-on: ubuntu-latest
     needs: [lint, test, build]
     steps:
