@@ -1,17 +1,17 @@
 on:
   workflow_call:
     inputs:
+      go-version-file:
+        default: go.mod
+        description: |
+          Path to the file that declares the Go version
+        required: false
+        type: string
+
       golangci-lint-version:
         default: "v1.55.2"
         description: |
           Set the version for golangci-lint
-        required: false
-        type: string
-
-      golang-version:
-        default: "1.21"
-        description: |
-          Set the version for golang
         required: false
         type: string
 
@@ -27,8 +27,8 @@ jobs:
       - name: ci/setup
         uses: mattermost/actions/plugin-ci/setup@main
         with:
+          go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
-          golang-version: ${{ inputs.golang-version }}
 
       - name: ci/lint
         uses: mattermost/actions/plugin-ci/lint@main
@@ -44,8 +44,8 @@ jobs:
       - name: ci/setup
         uses: mattermost/actions/plugin-ci/setup@main
         with:
+          go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
-          golang-version: ${{ inputs.golang-version }}
 
       - name: ci/test
         uses: mattermost/actions/plugin-ci/test@main
@@ -61,7 +61,7 @@ jobs:
       - name: ci/setup
         uses: mattermost/actions/plugin-ci/setup@main
         with:
-          golang-version: ${{ inputs.golang-version }}
+          go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
 
       - name: ci/build
