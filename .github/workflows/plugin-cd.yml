@@ -15,10 +15,10 @@ on:
         required: false
         type: string
 
-      golang-version:
-        default: "1.21"
+      go-version-file:
+        default: go.mod
         description: |
-          Set the version for golang
+          Path to the file that declares the Go version
         required: false
         type: string
 
@@ -46,7 +46,7 @@ jobs:
       - name: ci/setup
         uses: mattermost/actions/plugin-ci/setup@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
         with:
-          golang-version: ${{ inputs.golang-version }}
+          go-version-file: ${{ inputs.go-version-file }}
 
       - name: ci/build
         env:

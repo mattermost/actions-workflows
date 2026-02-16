@@ -1,19 +1,9 @@
 on:
   workflow_call:
-    inputs:
-      golang-version:
-        default: "1.21"
-        description: |
-          Set the version for golang
-        required: false
-        type: string
-
 jobs:
   build:
     uses: ./.github/workflows/community-plugin-ci.yml
     secrets: inherit
-    with:
-      golang-version: ${{ inputs.golang-version }}
 
   release-github:
     runs-on: ubuntu-latest
