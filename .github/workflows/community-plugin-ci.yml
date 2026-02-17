@@ -25,13 +25,13 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@main
+        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
         with:
           go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
 
       - name: ci/lint
-        uses: mattermost/actions/plugin-ci/lint@main
+        uses: mattermost/actions/plugin-ci/lint@0256d363493a1e6b9e361ea788c62a0a73bc00be
 
   test:
     runs-on: ubuntu-latest
@@ -42,13 +42,13 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@main
+        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
         with:
           go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
 
       - name: ci/test
-        uses: mattermost/actions/plugin-ci/test@main
+        uses: mattermost/actions/plugin-ci/test@0256d363493a1e6b9e361ea788c62a0a73bc00be
 
   build:
     runs-on: ubuntu-latest
@@ -59,10 +59,10 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@main
+        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
         with:
           go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
 
       - name: ci/build
-        uses: mattermost/actions/plugin-ci/build@main
+        uses: mattermost/actions/plugin-ci/build@0256d363493a1e6b9e361ea788c62a0a73bc00be

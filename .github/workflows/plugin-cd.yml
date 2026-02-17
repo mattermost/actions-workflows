@@ -44,7 +44,7 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
+        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
         with:
           go-version-file: ${{ inputs.go-version-file }}
 
@@ -53,7 +53,7 @@ jobs:
           MM_RUDDER_PLUGINS_PROD: ${{ secrets.MM_RUDDER_PLUGINS_PROD }}
           MM_RUDDER_CALLS_PROD: ${{ secrets.MM_RUDDER_CALLS_PROD }}
           MM_RUDDER_DATAPLANE_URL: ${{ secrets.MM_RUDDER_DATAPLANE_URL }}
-        uses: mattermost/actions/plugin-ci/build@d5174b860704729f4c14ef8489ae075742bfa08a # v1.0.0
+        uses: mattermost/actions/plugin-ci/build@0256d363493a1e6b9e361ea788c62a0a73bc00be
 
   release-s3:
     if: startsWith(github.ref, 'refs/tags/v') && github.repository_owner == 'mattermost'
