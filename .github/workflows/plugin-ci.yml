@@ -58,13 +58,13 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@218fd96a63451259dc100e1292a5e44af92fe15d
         with:
           go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
 
       - name: ci/lint
-        uses: mattermost/actions/plugin-ci/lint@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/lint@218fd96a63451259dc100e1292a5e44af92fe15d
 
   test:
     if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
@@ -76,12 +76,12 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@218fd96a63451259dc100e1292a5e44af92fe15d
         with:
           go-version-file: ${{ inputs.go-version-file }}
 
       - name: ci/test
-        uses: mattermost/actions/plugin-ci/test@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/test@218fd96a63451259dc100e1292a5e44af92fe15d
 
   build:
     if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
@@ -93,12 +93,12 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@218fd96a63451259dc100e1292a5e44af92fe15d
         with:
           go-version-file: ${{ inputs.go-version-file }}
 
       - name: ci/build
-        uses: mattermost/actions/plugin-ci/build@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/build@218fd96a63451259dc100e1292a5e44af92fe15d
 
   delivery:
     if: ${{ github.repository_owner == 'mattermost' && github.event_name != 'schedule' && (github.ref_name  == 'master' || github.ref_name  == 'main') }}
