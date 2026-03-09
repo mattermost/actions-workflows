@@ -58,13 +58,13 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@76afeff3a92faea822ec48a8221f27118b541ab5
         with:
           go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
 
       - name: ci/lint
-        uses: mattermost/actions/plugin-ci/lint@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/lint@76afeff3a92faea822ec48a8221f27118b541ab5
 
   test:
     if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
@@ -76,12 +76,12 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@76afeff3a92faea822ec48a8221f27118b541ab5
         with:
           go-version-file: ${{ inputs.go-version-file }}
 
       - name: ci/test
-        uses: mattermost/actions/plugin-ci/test@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/test@76afeff3a92faea822ec48a8221f27118b541ab5
 
   build:
     if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
@@ -93,12 +93,12 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@76afeff3a92faea822ec48a8221f27118b541ab5
         with:
           go-version-file: ${{ inputs.go-version-file }}
 
       - name: ci/build
-        uses: mattermost/actions/plugin-ci/build@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/build@76afeff3a92faea822ec48a8221f27118b541ab5
 
   delivery:
     if: ${{ github.repository_owner == 'mattermost' && github.event_name != 'schedule' && (github.ref_name  == 'master' || github.ref_name  == 'main') }}
@@ -106,7 +106,7 @@ jobs:
     needs: [lint, test, build]
     steps:
       - name: ci/download-artifact
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        uses: actions/download-artifact@70fc10c6e5e1ce46ad2ea6f2b72d43f7d47b13c3 # v8.0.0
         with:
           name: dist
           path: dist
