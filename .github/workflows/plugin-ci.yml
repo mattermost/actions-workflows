@@ -58,13 +58,13 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@21fc5e2a00837bf57978e8491ba2c532dd3bd73c
         with:
           go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
 
       - name: ci/lint
-        uses: mattermost/actions/plugin-ci/lint@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/lint@21fc5e2a00837bf57978e8491ba2c532dd3bd73c
 
   test:
     if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
@@ -76,12 +76,12 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@21fc5e2a00837bf57978e8491ba2c532dd3bd73c
         with:
           go-version-file: ${{ inputs.go-version-file }}
 
       - name: ci/test
-        uses: mattermost/actions/plugin-ci/test@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/test@21fc5e2a00837bf57978e8491ba2c532dd3bd73c
 
   build:
     if: ${{ github.repository_owner == 'mattermost' || github.event_name != 'schedule' || inputs.run-scheduled }}
@@ -93,12 +93,12 @@ jobs:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@21fc5e2a00837bf57978e8491ba2c532dd3bd73c
         with:
           go-version-file: ${{ inputs.go-version-file }}
 
       - name: ci/build
-        uses: mattermost/actions/plugin-ci/build@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/build@21fc5e2a00837bf57978e8491ba2c532dd3bd73c
 
   delivery:
     if: ${{ github.repository_owner == 'mattermost' && github.event_name != 'schedule' && (github.ref_name  == 'master' || github.ref_name  == 'main') }}
@@ -106,7 +106,7 @@ jobs:
     needs: [lint, test, build]
     steps:
       - name: ci/download-artifact
-        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
         with:
           name: dist
           path: dist
@@ -116,7 +116,7 @@ jobs:
         working-directory: dist
 
       - name: ci/aws-configure
-        uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
+        uses: aws-actions/configure-aws-credentials@ec61189d14ec14c8efccab744f656cffd0e33f37 # v6.1.0
         with:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID_RELEASE }}:role/mattermost-release-plugin-store-role
