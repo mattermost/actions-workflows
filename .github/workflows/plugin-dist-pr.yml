@@ -35,6 +35,9 @@ permissions:
 jobs:
   dist:
     runs-on: ubuntu-22.04
+    env:
+      # Dependabot PRs cannot access repository secrets (PLUGIN_DELIVERY_AWS_*).
+      CAN_UPLOAD: ${{ !endsWith(github.actor, '[bot]') }}
     steps:
       - name: ci/checkout-repo
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -64,6 +67,7 @@ jobs:
         run: make "$DIST_TARGET"
 
       - name: Resolve artifact destination
+        if: env.CAN_UPLOAD == 'true'
         id: destination
         env:
           SHARED_BUCKET: ${{ vars.PLUGIN_DIST_S3_BUCKET }}
@@ -94,6 +98,7 @@ jobs:
         run: make "$VERIFY_TARGET"
 
       - name: Configure AWS credentials
+        if: env.CAN_UPLOAD == 'true'
         uses: aws-actions/configure-aws-credentials@8df5847569e6427dd6c4fb1cf565c83acfa8afa7 # v6.0.0
         with:
           aws-access-key-id: ${{ secrets.PLUGIN_DELIVERY_AWS_ACCESS_KEY_ID }}
@@ -101,6 +106,7 @@ jobs:
           aws-region: us-east-1
 
       - name: Upload dist to S3
+        if: env.CAN_UPLOAD == 'true'
         env:
           ARTIFACT_PATTERN: ${{ inputs.artifact-pattern }}
           S3_BUCKET: ${{ steps.destination.outputs.bucket }}
