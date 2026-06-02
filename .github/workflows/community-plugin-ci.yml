@@ -20,49 +20,49 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: ci/checkout-repo
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@c7a06bc642f72fc227deb2cae3af03cff72c0f0d
         with:
           go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
 
       - name: ci/lint
-        uses: mattermost/actions/plugin-ci/lint@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/lint@c7a06bc642f72fc227deb2cae3af03cff72c0f0d
 
   test:
     runs-on: ubuntu-latest
     steps:
       - name: ci/checkout-repo
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@c7a06bc642f72fc227deb2cae3af03cff72c0f0d
         with:
           go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
 
       - name: ci/test
-        uses: mattermost/actions/plugin-ci/test@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/test@c7a06bc642f72fc227deb2cae3af03cff72c0f0d
 
   build:
     runs-on: ubuntu-latest
     steps:
       - name: ci/checkout-repo
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
         with:
           fetch-depth: 0
 
       - name: ci/setup
-        uses: mattermost/actions/plugin-ci/setup@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/setup@c7a06bc642f72fc227deb2cae3af03cff72c0f0d
         with:
           go-version-file: ${{ inputs.go-version-file }}
           golangci-lint-version: ${{ inputs.golangci-lint-version }}
 
       - name: ci/build
-        uses: mattermost/actions/plugin-ci/build@0256d363493a1e6b9e361ea788c62a0a73bc00be
+        uses: mattermost/actions/plugin-ci/build@c7a06bc642f72fc227deb2cae3af03cff72c0f0d
